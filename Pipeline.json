@@ -1,0 +1,90 @@
+Pipeline SQL DB to ADLS
+
+{
+    "name": "Pipeline SQLdb to ADLS2",
+    "properties": {
+        "activities": [
+            {
+                "name": "SQL DB to ADLS2",
+                "type": "Copy",
+                "dependsOn": [],
+                "policy": {
+                    "timeout": "0.12:00:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "source": {
+                        "type": "AzureSqlSource",
+                        "queryTimeout": "02:00:00",
+                        "partitionOption": "None"
+                    },
+                    "sink": {
+                        "type": "DelimitedTextSink",
+                        "storeSettings": {
+                            "type": "AzureBlobFSWriteSettings"
+                        },
+                        "formatSettings": {
+                            "type": "DelimitedTextWriteSettings",
+                            "quoteAllText": true,
+                            "fileExtension": ".txt"
+                        }
+                    },
+                    "enableStaging": false,
+                    "translator": {
+                        "type": "TabularTranslator",
+                        "typeConversion": true,
+                        "typeConversionSettings": {
+                            "allowDataTruncation": true,
+                            "treatBooleanAsNumber": false
+                        }
+                    }
+                },
+                "inputs": [
+                    {
+                        "referenceName": "ds_AzureSqlTable1",
+                        "type": "DatasetReference",
+                        "parameters": {
+                            "srcTable": {
+                                "value": "@pipeline().parameters.Table",
+                                "type": "Expression"
+                            },
+                            "srcSchema": {
+                                "value": "@pipeline().parameters.Schema",
+                                "type": "Expression"
+                            }
+                        }
+                    }
+                ],
+                "outputs": [
+                    {
+                        "referenceName": "ls_DelimitedText1",
+                        "type": "DatasetReference",
+                        "parameters": {
+                            "targetTable": {
+                                "value": "@pipeline().parameters.Table",
+                                "type": "Expression"
+                            },
+                            "targetSchema": {
+                                "value": "@pipeline().parameters.Schema",
+                                "type": "Expression"
+                            }
+                        }
+                    }
+                ]
+            }
+        ],
+        "parameters": {
+            "Schema": {
+                "type": "string"
+            },
+            "Table": {
+                "type": "string"
+            }
+        },
+        "annotations": []
+    }
+}
