@@ -1,1 +1,1 @@
-# Data-Ingestion-and-Analysis-using-AzurecSynapse-Analytics
+# Data-Ingestion-and-Analysis-using-Azure-Synapse-Analytics
