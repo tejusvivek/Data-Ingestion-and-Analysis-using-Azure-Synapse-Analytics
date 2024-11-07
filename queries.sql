@@ -178,6 +178,6 @@ GROUP by p.name
 Order by totalsales desc
 
 --What is the lifetime of the products sold?
-SELECT (p.productid), (DATEDIFF(YEAR, p.sellstartdate, p.sellenddate)) as productLifetime from product as p
+SELECT (p.productid), (DATEDIFF(YEAR, p.sellstartdate, p.sellenddate)) as productLifetime_yrs from product as p
 where (DATEDIFF(YEAR, p.sellstartdate, p.sellenddate)) is not NULL
 ORDER by p.productid asc
